@@ -3,10 +3,7 @@ const userModel = require("./../models/userModel");
 const AppError = require("./../utils/appError");
 const catchAsync = require("./../utils/catchAsync");
 
-exports.login = catchAsync(async ({ body, cookies }, res, next) => {
-    if("userSF" in cookies)
-        return next(new AppError("User is logged in"));
-
+exports.login = catchAsync(async ({ body }, res, next) => {
     const { name } = body;
     const user = await userModel.findOne({ name }).select("-__v")
 
@@ -19,10 +16,7 @@ exports.login = catchAsync(async ({ body, cookies }, res, next) => {
         .json(user)
 })
 
-exports.register = catchAsync(async ({ body, cookies }, res, next) => {
-    if("userSF" in cookies)
-        return next(new AppError("User is logged in"));
-
+exports.register = catchAsync(async ({ body }, res, next) => {
     const { name } = body;
     const user = await userModel.findOne({ name }).select("-__v")
 
