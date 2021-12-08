@@ -1,0 +1,33 @@
+{
+  "name": "footballapi",
+  "version": "1.0.0",
+  "description": "api_soccer",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deanexx/football_api_2021.git"
+  },
+  "author": "Eldar Tailov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Deanexx/football_api_2021/issues"
+  },
+  "homepage": "https://github.com/Deanexx/football_api_2021#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.15",
+    "node-cron": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  }
+}
