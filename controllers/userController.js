@@ -9,7 +9,7 @@ exports.login = catchAsync(async ({ body }, res, next) => {
 
     if (!user) 
         return next(new AppError("User not found", 401))
-    res.cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: false, secure: false })
+    res.cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: false })
     return res
         .status(201)
         .json(user)
