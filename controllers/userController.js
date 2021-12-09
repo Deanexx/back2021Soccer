@@ -11,7 +11,7 @@ exports.login = catchAsync(async ({ body }, res, next) => {
         return next(new AppError("User not found", 401))
     
     return res
-        .cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000 })
+        .cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: false })
         .status(201)
         .json(user)
 })
@@ -25,7 +25,7 @@ exports.register = catchAsync(async ({ body }, res, next) => {
     const newUser = await userModel.create({ name })
     delete newUser["__v"];
     return res
-            .cookie("userSF", newUser, { maxAge: 3000 * 24 * 60 * 60 * 1000 })
+            .cookie("userSF", newUser, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: false })
             .status(201)
             .json(newUser);
 })
@@ -41,12 +41,12 @@ exports.updateName = catchAsync(async ({ body, cookies }, res, next) => {
     user.name = body.name;
     user.save();
     return res
-        .cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000 })
+        .cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: false })
         .sendStatus(204)
 })
 
 exports.signOut = async ( _, res) => {
     return res
-        .cookie("userSF", null,  { maxAge: -1 })
+        .cookie("userSF", null,  { maxAge: -1, httpOnly: false })
         .sendStatus(204);
 }
