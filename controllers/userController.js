@@ -9,9 +9,8 @@ exports.login = catchAsync(async ({ body }, res, next) => {
 
     if (!user) 
         return next(new AppError("User not found", 401))
-    
+    res.cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: false, secure: false })
     return res
-        .cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: false, secure: false })
         .status(201)
         .json(user)
 })
@@ -24,8 +23,8 @@ exports.register = catchAsync(async ({ body }, res, next) => {
         return next(new AppError("User is existed with this Name", 401))
     const newUser = await userModel.create({ name })
     delete newUser["__v"];
+    res.cookie("userSF", newUser, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: false })
     return res
-            .cookie("userSF", newUser, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: false, secure: false })
             .status(201)
             .json(newUser);
 })
@@ -40,13 +39,13 @@ exports.updateName = catchAsync(async ({ body, cookies }, res, next) => {
         return next(new AppError("No user in db, please try to relogin!"))
     user.name = body.name;
     user.save();
+    res.cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: false })
     return res
-        .cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: false, secure: false })
         .sendStatus(204)
 })
 
 exports.signOut = async ( _, res) => {
+    res.cookie("userSF", null,  { maxAge: -1, httpOnly: false })
     return res
-        .cookie("userSF", null,  { maxAge: -1, httpOnly: false })
         .sendStatus(204);
 }
