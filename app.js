@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(cors({
 	origin: "https://soccer2021front.herokuapp.com",
 	// origin: "http://localhost:3000",
-	// credentials: true,
+	credentials: true,
 }));
 
 
