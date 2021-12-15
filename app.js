@@ -25,11 +25,13 @@ app.use(function(req, res, next) {
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({
-	origin: "https://soccer2021front.herokuapp.com",
-	// origin: "http://localhost:3000",
-	credentials: true,
-}));
+// app.use(cors({
+// 	origin: "https://soccer2021front.herokuapp.com",
+// 	// origin: "http://localhost:3000",
+// 	credentials: true,
+// }));
+
+app.use(cors())
 
 // scheduler every Sunday refresh voting
 
