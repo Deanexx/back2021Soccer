@@ -3,9 +3,9 @@ const voteModel = require("./../models/voteModel");
 const catchAsync = require("./../utils/catchAsync")
 const AppError = require("../utils/appError");
 
-function is_cookie(cookies){
-    return ("userSF" in cookies && "_id" in cookies["userSF"]) ? cookies.userSF._id : null;
-}
+// function is_cookie(cookies){
+//     return ("userSF" in cookies && "_id" in cookies["userSF"]) ? cookies.userSF._id : null;
+// }
 
 exports.getVote = async(_, res) => {
     const vote = await voteModel
@@ -43,10 +43,8 @@ exports.createVote_cron = async () => {
     return true;
 }
 
-exports.addUser = catchAsync(async ({ cookies }, res, next) => {
-    const userID = is_cookie(cookies);
-    if(!userID)
-        return next(new AppError("User is not logged in", 400))
+exports.addUser = catchAsync(async ({ body }, res, next) => {
+    const { _id: userID } =  body
     const vote = await voteModel.findOne({ active: true })
     if(vote.users.includes(userID)) 
         return next(new AppError("User already exists in vote", 400))
@@ -56,12 +54,12 @@ exports.addUser = catchAsync(async ({ cookies }, res, next) => {
     return res.sendStatus(204)
 })
 
-exports.deleteUser = catchAsync(async ({ cookies }, res, next) => {
-    const userID = is_cookie(cookies);
+exports.deleteUser = catchAsync(async ({ body }, res, next) => {
+    const { _id: userID } = body;
+    // const userID = is_cookie(cookies);
 
-    if(!userID)
-        return next(new AppError("User is not logged in", 400))
-
+    // if(!userID)
+    //     return next(new AppError("User is not logged in", 400))
     const vote = await voteModel.findOne({ active: true });
     vote.users = await vote.users.filter(el => el != userID);
     vote.save();
@@ -69,10 +67,11 @@ exports.deleteUser = catchAsync(async ({ cookies }, res, next) => {
     return res.sendStatus(204);
 })
 
-exports.setGoals = catchAsync(async ( { cookies } , res, next) => {
-    const user = is_cookie(cookies);
-    if(!user)
-        return next(new AppError("User is not logged in", 400))
+exports.setGoals = catchAsync(async ( { body } , res, next) => {
+    const { _id: user } = body;
+    // const user = is_cookie(cookies);
+    // if(!user)
+    //     return next(new AppError("User is not logged in", 400))
     
     const vote = await voteModel
         .findOne({ active: true })
@@ -95,10 +94,10 @@ exports.setMap = catchAsync( async ({ body }, res, next) => {
 })
 
 
-exports.removeGoals = catchAsync(async ( { cookies } , res, next) => {
-    const user = is_cookie(cookies);
-    if(!user)
-        return next(new AppError("User is not logged in", 400))
+exports.removeGoals = catchAsync(async (_, res, next) => {
+    // const user = is_cookie(cookies);
+    // if(!user)
+    //     return next(new AppError("User is not logged in", 400))
     
     const vote = await voteModel
         .findOne({ active: true })

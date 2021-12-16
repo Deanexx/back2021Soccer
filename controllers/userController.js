@@ -9,7 +9,7 @@ exports.login = catchAsync(async ({ body }, res, next) => {
 
     if (!user) 
         return next(new AppError("User not found", 401))
-    res.cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "None", secure: true })
+    // res.cookie("userSF", user, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "None", secure: true })
     return res
         .status(201)
         .json(user)
@@ -23,7 +23,7 @@ exports.register = catchAsync(async ({ body }, res, next) => {
         return next(new AppError("User is existed with this Name", 401))
     const newUser = await userModel.create({ name })
     delete newUser["__v"];
-    res.cookie("userSF", newUser, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "None", secure: true })
+    // res.cookie("userSF", newUser, { maxAge: 3000 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "None", secure: true })
     return res
             .status(201)
             .json(newUser);
